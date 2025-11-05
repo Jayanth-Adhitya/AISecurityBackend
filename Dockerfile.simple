@@ -26,13 +26,17 @@ RUN apt-get update && \
 # Copy requirements file
 COPY requirements.txt ./
 
-# Install opencv-python-headless FIRST to claim the opencv namespace
+# Install core dependencies in correct order to prevent conflicts
+# 1. Install opencv-python-headless FIRST to claim the opencv namespace
 RUN pip install --no-cache-dir opencv-python-headless==4.8.1.78
 
-# Install ultralytics WITHOUT dependencies to prevent opencv-python override
+# 2. Install torch and torchvision (compatible versions before 2.6 breaking changes)
+RUN pip install --no-cache-dir torch==2.1.2 torchvision==0.16.2
+
+# 3. Install ultralytics WITHOUT dependencies to prevent opencv-python override
 RUN pip install --no-cache-dir --no-deps ultralytics==8.0.196
 
-# Now install all other requirements (opencv will be skipped as already installed)
+# 4. Now install all other requirements (opencv/torch already satisfied, will be skipped)
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy application code

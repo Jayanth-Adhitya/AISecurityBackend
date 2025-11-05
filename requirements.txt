@@ -16,10 +16,11 @@ numpy>=1.24.0,<2.0.0
 Pillow>=10.0.0
 
 # YOLO Detection (CPU-only)
-# Pin ultralytics version to prevent opencv-python conflicts
+# Using torch 2.1.x (before 2.6 breaking changes) with compatible versions
+torch==2.1.2
+torchvision==0.16.2
+# Ultralytics compatible with torch 2.1 and opencv-python-headless
 ultralytics==8.0.196
-torch==2.9.0  # CPU version
-torchvision==0.24.0  # CPU version
 
 # AI/LLM
 langchain>=0.1.0
