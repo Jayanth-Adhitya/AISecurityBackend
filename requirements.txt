@@ -15,9 +15,9 @@ numpy>=1.24.0,<2.0.0
 Pillow>=10.0.0
 
 # YOLO Detection (CPU-only)
-ultralytics>=8.0.0
-torch>=2.0.0,<2.1.0  # CPU version
-torchvision>=0.15.0,<0.16.0  # CPU version
+ultralytics
+torch==2.9.0  # CPU version
+torchvision==0.24.0  # CPU version
 
 # AI/LLM
 langchain>=0.1.0
