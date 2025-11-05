@@ -74,8 +74,8 @@ COPY --from=builder /root/.local /root/.local
 COPY . /app/
 
 # Create necessary directories with proper permissions
-RUN mkdir -p /app/uploads /app/processed /app/temp && \
-    chmod -R 777 /app/uploads /app/processed /app/temp && \
+RUN mkdir -p /app/uploads /app/processed /app/temp /app/data && \
+    chmod -R 777 /app/uploads /app/processed /app/temp /app/data && \
     chmod -R 755 /app
 
 # Set Python path

@@ -12,7 +12,7 @@ services:
       - "7000:7000"
     environment:
       - ENVIRONMENT=production
-      - DATABASE_URL=sqlite:///./luggage_monitoring.db
+      - DATABASE_URL=sqlite:///./data/luggage_monitoring.db
       - GOOGLE_API_KEY=${GOOGLE_API_KEY}
       - SMTP_HOST=${SMTP_HOST:-smtp.gmail.com}
       - SMTP_PORT=${SMTP_PORT:-587}
@@ -31,7 +31,7 @@ services:
       - ./uploads:/app/uploads
       - ./processed:/app/processed
       - ./temp:/app/temp
-      - ./luggage_monitoring.db:/app/luggage_monitoring.db
+      - ./data:/app/data
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:7000/health"]
       interval: 30s

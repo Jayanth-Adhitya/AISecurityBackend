@@ -16,8 +16,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . /app/
 
 # Create necessary directories with proper permissions
-RUN mkdir -p /app/uploads /app/processed /app/temp && \
-    chmod -R 777 /app/uploads /app/processed /app/temp && \
+RUN mkdir -p /app/uploads /app/processed /app/temp /app/data && \
+    chmod -R 777 /app/uploads /app/processed /app/temp /app/data && \
     chmod -R 755 /app
 
 # Expose port
