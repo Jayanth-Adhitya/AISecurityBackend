@@ -1,23 +1,15 @@
-# Simpler Dockerfile using fuller base image (better for Coolify)
+# Ultra-simple Dockerfile - no apt-get to avoid Coolify network issues
 FROM python:3.11
 
 # Set working directory
 WORKDIR /app
 
-# Environment variables
-ENV PYTHONUNBUFFERED=1
-ENV DEBIAN_FRONTEND=noninteractive
-
-# Install OpenCV dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    libgl1-mesa-glx \
-    libglib2.0-0 \
-    libsm6 \
-    libxext6 \
-    libxrender1 \
-    libgomp1 \
-    && apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+# Environment variables for headless operation
+ENV PYTHONUNBUFFERED=1 \
+    DEBIAN_FRONTEND=noninteractive \
+    OPENCV_VIDEOIO_PRIORITY_MSMF=0 \
+    QT_QPA_PLATFORM=offscreen \
+    MPLBACKEND=Agg
 
 # Copy requirements and install Python dependencies
 COPY requirements.txt .
