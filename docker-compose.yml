@@ -9,7 +9,7 @@ services:
     container_name: luggage_monitoring_backend
     restart: unless-stopped
     ports:
-      - "8000:8000"
+      - "7000:7000"
     environment:
       - ENVIRONMENT=production
       - DATABASE_URL=sqlite:///./luggage_monitoring.db
@@ -26,14 +26,14 @@ services:
       - STATIONARY_THRESHOLD=20
       - MIN_LUGGAGE_CONFIDENCE=0.5
       - CONFIDENCE_THRESHOLD=0.5
-      - CORS_ORIGINS=http://localhost:3000,http://localhost:5173,https://9d7b0f2dd095.ngrok-free.app,https://aisecurity.mehh.ae
+      - CORS_ORIGINS=http://localhost:3000,http://localhost:5173,https://aisecurity.mehh.ae,http://focc0cosgwcskkws0wwkg4k4.31.97.62.24.sslip.io:7000
     volumes:
       - ./uploads:/app/uploads
       - ./processed:/app/processed
       - ./temp:/app/temp
       - ./luggage_monitoring.db:/app/luggage_monitoring.db
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:7000/health"]
       interval: 30s
       timeout: 10s
       retries: 3

@@ -73,8 +73,10 @@ COPY --from=builder /root/.local /root/.local
 # Copy application code
 COPY . /app/
 
-# Create necessary directories
-RUN mkdir -p /app/uploads /app/processed /app/temp
+# Create necessary directories with proper permissions
+RUN mkdir -p /app/uploads /app/processed /app/temp && \
+    chmod -R 777 /app/uploads /app/processed /app/temp && \
+    chmod -R 755 /app
 
 # Set Python path
 ENV PATH=/root/.local/bin:$PATH
