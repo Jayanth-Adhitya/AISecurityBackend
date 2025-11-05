@@ -1,9 +1,0 @@
-# Pip constraints file to prevent opencv-python (GUI version) installation
-# This ensures only opencv-python-headless can be installed
-
-# Block opencv-python by setting it to an impossible version
-# Any package trying to install opencv-python will fail, forcing headless version
-opencv-python==999.999.999
-
-# Allow opencv-python-headless
-opencv-python-headless

@@ -32,11 +32,17 @@ RUN apt-get update && \
     && apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Copy requirements and constraints files
-COPY requirements.txt constraints.txt ./
+# Copy requirements file
+COPY requirements.txt ./
 
-# Install Python dependencies with constraints to prevent opencv-python (GUI version)
-RUN pip install --no-cache-dir --user -c constraints.txt -r requirements.txt
+# Install opencv-python-headless FIRST to claim the opencv namespace
+RUN pip install --no-cache-dir --user opencv-python-headless==4.8.1.78
+
+# Install ultralytics WITHOUT dependencies to prevent opencv-python override
+RUN pip install --no-cache-dir --user --no-deps ultralytics==8.0.196
+
+# Now install all other requirements (opencv will be skipped as already installed)
+RUN pip install --no-cache-dir --user -r requirements.txt
 
 # Note: YOLO models will auto-download on first use to save build memory
 

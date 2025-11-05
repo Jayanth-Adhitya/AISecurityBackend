@@ -23,11 +23,17 @@ RUN apt-get update && \
         libgomp1 \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements and constraints files
-COPY requirements.txt constraints.txt ./
+# Copy requirements file
+COPY requirements.txt ./
 
-# Install Python dependencies with constraints to prevent opencv-python (GUI version)
-RUN pip install --no-cache-dir -c constraints.txt -r requirements.txt
+# Install opencv-python-headless FIRST to claim the opencv namespace
+RUN pip install --no-cache-dir opencv-python-headless==4.8.1.78
+
+# Install ultralytics WITHOUT dependencies to prevent opencv-python override
+RUN pip install --no-cache-dir --no-deps ultralytics==8.0.196
+
+# Now install all other requirements (opencv will be skipped as already installed)
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy application code
 COPY . /app/
