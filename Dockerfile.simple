@@ -1,5 +1,5 @@
-# Ultra-simple Dockerfile - no apt-get to avoid Coolify network issues
-FROM python:3.11
+# Use Debian Bullseye base for better package availability on Coolify
+FROM python:3.11-bullseye
 
 # Set working directory
 WORKDIR /app
@@ -10,6 +10,17 @@ ENV PYTHONUNBUFFERED=1 \
     OPENCV_VIDEOIO_PRIORITY_MSMF=0 \
     QT_QPA_PLATFORM=offscreen \
     MPLBACKEND=Agg
+
+# Install OpenCV system dependencies (Bullseye repos are more reliable)
+# Only install absolute minimum required libraries
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        libglib2.0-0 \
+        libsm6 \
+        libxrender1 \
+        libxext6 \
+        libgomp1 \
+    && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements and install Python dependencies
 COPY requirements.txt .
