@@ -1,0 +1,26 @@
+fastapi
+uvicorn[standard]
+python-multipart
+sqlalchemy
+alembic
+opencv-python
+ultralytics
+numpy
+Pillow
+python-dotenv
+langchain
+langchain-google-genai
+chromadb
+pandas
+aiofiles
+websockets
+pydantic
+psycopg2-binary  # for PostgreSQL
+pymysql[rsa]>=1.1.0  # for MySQL with SSL support
+cryptography>=41.0.0  # for SSL connections
+scikit-learn
+scipy
+webcolors
+aiosmtplib
+jinja2
+deepface
