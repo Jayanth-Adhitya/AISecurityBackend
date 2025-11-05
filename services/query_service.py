@@ -20,13 +20,23 @@ from config import settings
 class QueryService:
     def __init__(self):
         if settings.GOOGLE_API_KEY:
-            self.llm = ChatGoogleGenerativeAI(
-                model=settings.MODEL_NAME,
-                google_api_key=settings.GOOGLE_API_KEY,
-                temperature=0.3,
-                convert_system_message_to_human=True
-            )
+            try:
+                print(f"Initializing LLM with model: {settings.MODEL_NAME}")
+                print(f"API Key present: {bool(settings.GOOGLE_API_KEY)}")
+                self.llm = ChatGoogleGenerativeAI(
+                    model=settings.MODEL_NAME,
+                    google_api_key=settings.GOOGLE_API_KEY,
+                    temperature=0.3,
+                    convert_system_message_to_human=True
+                )
+                print("LLM initialized successfully!")
+            except Exception as e:
+                print(f"ERROR: Failed to initialize LLM: {e}")
+                import traceback
+                traceback.print_exc()
+                self.llm = None
         else:
+            print("WARNING: GOOGLE_API_KEY not found, LLM disabled")
             self.llm = None
 
     def encode_image_to_base64(self, image_path: str) -> Optional[str]:
