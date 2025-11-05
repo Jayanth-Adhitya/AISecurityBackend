@@ -51,8 +51,10 @@ class Settings:
     MAX_VIDEO_SIZE_MB = int(os.getenv("MAX_VIDEO_SIZE_MB", "500"))
     
     # YOLO settings
-    YOLO_MODEL = os.getenv("YOLO_MODEL", "yolov8m.pt")
-    YOLO_DEVICE = os.getenv("YOLO_DEVICE", "0") # "0" for GPU, "cpu" for CPU
+    # Use smaller model for production to fit in memory limits
+    default_model = "yolov8n.pt" if ENVIRONMENT == "production" else "yolov8m.pt"
+    YOLO_MODEL = os.getenv("YOLO_MODEL", default_model)
+    YOLO_DEVICE = os.getenv("YOLO_DEVICE", "cpu")  # Use CPU for free tier
     TARGET_CLASSES = ["suitcase", "backpack", "handbag", "person"]  # Luggage detection
 
     # Luggage detection settings
