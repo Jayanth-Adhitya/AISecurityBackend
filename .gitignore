@@ -140,3 +140,8 @@ alembic/versions/*.pyc
 *.pem
 *.key
 *.crt
+
+# Docker
+.env.docker.local
+docker-compose.override.yml
+.dockerignore.local

@@ -68,7 +68,7 @@ class Settings:
     MODEL_NAME = "gemini-2.5-flash"
     
     # CORS
-    CORS_ORIGINS = os.getenv("CORS_ORIGINS", "http://localhost:3000,http://localhost:5173").split(",")
+    CORS_ORIGINS = os.getenv("CORS_ORIGINS", "http://localhost:3000,http://localhost:5173,https://aisecurity.mehh.ae,https://9d7b0f2dd095.ngrok-free.app").split(",")
     
     # Pose detection
     POSE_MODEL = os.getenv("POSE_MODEL", "yolov8m-pose.pt")
