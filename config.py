@@ -14,25 +14,27 @@ class Settings:
     # Database
     ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
 
-    if ENVIRONMENT == "production":
-        # Production: Use Aiven MySQL with SSL
-        MYSQL_USER = os.getenv("MYSQL_USER", "avnadmin")
-        MYSQL_PASSWORD = os.getenv("MYSQL_PASSWORD", "")
-        MYSQL_HOST = os.getenv("MYSQL_HOST", "")
-        MYSQL_PORT = os.getenv("MYSQL_PORT", "12345")
-        MYSQL_DATABASE = os.getenv("MYSQL_DATABASE", "defaultdb")
+    # Check if DATABASE_URL is explicitly set first
+    DATABASE_URL = os.getenv("DATABASE_URL")
 
-        # URL encode password to handle special characters
-        encoded_password = urllib.parse.quote_plus(MYSQL_PASSWORD) if MYSQL_PASSWORD else ""
+    if DATABASE_URL is None:
+        # No DATABASE_URL set, check environment
+        if ENVIRONMENT == "production":
+            # Production: Use Aiven MySQL with SSL (only if DATABASE_URL not set)
+            MYSQL_USER = os.getenv("MYSQL_USER", "avnadmin")
+            MYSQL_PASSWORD = os.getenv("MYSQL_PASSWORD", "")
+            MYSQL_HOST = os.getenv("MYSQL_HOST", "")
+            MYSQL_PORT = os.getenv("MYSQL_PORT", "12345")
+            MYSQL_DATABASE = os.getenv("MYSQL_DATABASE", "defaultdb")
 
-        # Aiven requires SSL
-        DATABASE_URL = f"mysql+pymysql://{MYSQL_USER}:{encoded_password}@{MYSQL_HOST}:{MYSQL_PORT}/{MYSQL_DATABASE}?ssl_ca=&ssl_verify_cert=true&ssl_verify_identity=true"
-    else:
-        # Development: Use SQLite or custom DATABASE_URL
-        DATABASE_URL = os.getenv(
-            "DATABASE_URL",
-            "sqlite:///./luggage_monitoring.db"
-        )
+            # URL encode password to handle special characters
+            encoded_password = urllib.parse.quote_plus(MYSQL_PASSWORD) if MYSQL_PASSWORD else ""
+
+            # Aiven requires SSL
+            DATABASE_URL = f"mysql+pymysql://{MYSQL_USER}:{encoded_password}@{MYSQL_HOST}:{MYSQL_PORT}/{MYSQL_DATABASE}?ssl_ca=&ssl_verify_cert=true&ssl_verify_identity=true"
+        else:
+            # Development: Use SQLite
+            DATABASE_URL = "sqlite:///./luggage_monitoring.db"
     
     # File paths
     BASE_DIR = Path(__file__).resolve().parent.parent
