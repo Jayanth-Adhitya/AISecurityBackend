@@ -12,9 +12,10 @@ ENV PYTHONUNBUFFERED=1 \
     MPLBACKEND=Agg
 
 # Install OpenCV system dependencies (Bullseye repos are more reliable)
-# Only install absolute minimum required libraries
+# Including libgl1-mesa-glx for libGL.so.1 support
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
+        libgl1-mesa-glx \
         libglib2.0-0 \
         libsm6 \
         libxrender1 \
@@ -22,9 +23,11 @@ RUN apt-get update && \
         libgomp1 \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements and install Python dependencies
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# Copy requirements and constraints files
+COPY requirements.txt constraints.txt ./
+
+# Install Python dependencies with constraints to prevent opencv-python (GUI version)
+RUN pip install --no-cache-dir -c constraints.txt -r requirements.txt
 
 # Copy application code
 COPY . /app/

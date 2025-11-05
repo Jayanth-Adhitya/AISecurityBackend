@@ -10,12 +10,14 @@ pymysql[rsa]>=1.1.0  # MySQL with SSL support
 cryptography>=41.0.0  # SSL connections
 
 # Computer Vision (CPU-only, headless for no GUI dependencies)
-opencv-python-headless>=4.8.0
+# IMPORTANT: Install opencv-python-headless BEFORE ultralytics to prevent GUI version
+opencv-python-headless==4.8.1.78
 numpy>=1.24.0,<2.0.0
 Pillow>=10.0.0
 
 # YOLO Detection (CPU-only)
-ultralytics
+# Pin ultralytics version to prevent opencv-python conflicts
+ultralytics==8.0.196
 torch==2.9.0  # CPU version
 torchvision==0.24.0  # CPU version
 

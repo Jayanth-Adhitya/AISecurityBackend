@@ -32,11 +32,11 @@ RUN apt-get update && \
     && apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Copy requirements
-COPY requirements.txt .
+# Copy requirements and constraints files
+COPY requirements.txt constraints.txt ./
 
-# Install Python dependencies
-RUN pip install --no-cache-dir --user -r requirements.txt
+# Install Python dependencies with constraints to prevent opencv-python (GUI version)
+RUN pip install --no-cache-dir --user -c constraints.txt -r requirements.txt
 
 # Note: YOLO models will auto-download on first use to save build memory
 
