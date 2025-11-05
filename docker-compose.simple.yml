@@ -12,13 +12,13 @@ services:
     environment:
       - ENVIRONMENT=production
       - DATABASE_URL=sqlite:///./data/luggage_monitoring.db
-      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
-      - SMTP_HOST=${SMTP_HOST:-smtp.gmail.com}
-      - SMTP_PORT=${SMTP_PORT:-587}
-      - SMTP_USER=${SMTP_USER}
-      - SMTP_PASSWORD=${SMTP_PASSWORD}
-      - FROM_EMAIL=${FROM_EMAIL}
-      - ALERT_RECIPIENTS=${ALERT_RECIPIENTS}
+      - GOOGLE_API_KEY=AIzaSyA9rsKvAwQ3JP9WCr0ZW_fE3q832-B4I8s
+      - SMTP_HOST=smtp.gmail.com
+      - SMTP_PORT=587
+      - SMTP_USER=jayanth2512@gmail.com
+      - SMTP_PASSWORD=coyn kegf alwy tdqd
+      - FROM_EMAIL=jayanth2512@gmail.com
+      - ALERT_RECIPIENTS=jayanthadhitya@gmail.com
       - ENABLE_EMAIL_ALERTS=true
       - ABANDONMENT_THRESHOLD=10.0
       - OWNER_PROXIMITY_DISTANCE=150
