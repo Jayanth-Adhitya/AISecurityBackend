@@ -7,20 +7,28 @@ WORKDIR /app
 # Avoid prompts from apt
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install system dependencies with retry and better error handling
+# Configure apt to use retries and be more resilient
+RUN echo 'Acquire::Retries "3";' > /etc/apt/apt.conf.d/80-retries && \
+    echo 'Acquire::http::Timeout "30";' >> /etc/apt/apt.conf.d/80-retries && \
+    echo 'Acquire::ftp::Timeout "30";' >> /etc/apt/apt.conf.d/80-retries
+
+# Install system dependencies - split into smaller groups for better caching
 RUN apt-get clean && \
-    rm -rf /var/lib/apt/lists/* && \
-    apt-get update --fix-missing && \
+    apt-get update && \
     apt-get install -y --no-install-recommends \
     gcc \
     g++ \
+    && apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
     libgl1-mesa-glx \
     libglib2.0-0 \
     libsm6 \
     libxext6 \
     libxrender-dev \
     libgomp1 \
-    wget \
     && apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -41,10 +49,13 @@ WORKDIR /app
 # Avoid prompts from apt
 ENV DEBIAN_FRONTEND=noninteractive
 
+# Configure apt retries
+RUN echo 'Acquire::Retries "3";' > /etc/apt/apt.conf.d/80-retries && \
+    echo 'Acquire::http::Timeout "30";' >> /etc/apt/apt.conf.d/80-retries
+
 # Install runtime dependencies only
 RUN apt-get clean && \
-    rm -rf /var/lib/apt/lists/* && \
-    apt-get update --fix-missing && \
+    apt-get update && \
     apt-get install -y --no-install-recommends \
     libgl1-mesa-glx \
     libglib2.0-0 \

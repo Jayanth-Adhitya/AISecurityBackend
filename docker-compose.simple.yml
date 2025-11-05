@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.simple
+    container_name: luggage_monitoring_backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - ENVIRONMENT=production
+      - DATABASE_URL=sqlite:///./luggage_monitoring.db
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+      - SMTP_HOST=${SMTP_HOST:-smtp.gmail.com}
+      - SMTP_PORT=${SMTP_PORT:-587}
+      - SMTP_USER=${SMTP_USER}
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
+      - FROM_EMAIL=${FROM_EMAIL}
+      - ALERT_RECIPIENTS=${ALERT_RECIPIENTS}
+      - ENABLE_EMAIL_ALERTS=true
+      - ABANDONMENT_THRESHOLD=10.0
+      - OWNER_PROXIMITY_DISTANCE=150
+      - STATIONARY_THRESHOLD=20
+      - MIN_LUGGAGE_CONFIDENCE=0.5
+      - CONFIDENCE_THRESHOLD=0.5
+      - CORS_ORIGINS=http://localhost:3000,http://localhost:5173,https://9d7b0f2dd095.ngrok-free.app,https://aisecurity.mehh.ae
+    volumes:
+      - ./uploads:/app/uploads
+      - ./processed:/app/processed
+      - ./temp:/app/temp
+      - ./luggage_monitoring.db:/app/luggage_monitoring.db
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s

@@ -1,12 +1,40 @@
-# Local Docker Deployment Guide
+# Docker Deployment Guide
 
-Deploy the entire luggage monitoring system locally using Docker Compose.
+Deploy the luggage monitoring system using Docker Compose locally or on platforms like Coolify.
 
-**Note**: All Docker files are now located in the `app/` directory. Run all commands from this directory.
+**Note**: All Docker files are in the `app/` directory.
 
 ---
 
-## Prerequisites
+## For Coolify/Remote Servers
+
+If you're deploying on **Coolify** or having network issues during build, use the simpler Dockerfile:
+
+### Option 1: Use Dockerfile.simple (Recommended for Coolify)
+
+In Coolify, set:
+- **Dockerfile Location**: `app/Dockerfile.simple`
+- **Docker Compose File**: `app/docker-compose.simple.yml`
+
+Or manually build:
+```bash
+cd app
+docker-compose -f docker-compose.simple.yml up -d
+```
+
+**Dockerfile.simple uses `python:3.11` (full image) instead of `python:3.11-slim`** which avoids network issues with apt-get on restricted servers.
+
+### Option 2: Use Regular Dockerfile
+
+If Option 1 doesn't work, try the optimized multi-stage build:
+```bash
+cd app
+docker-compose up --build
+```
+
+---
+
+## Local Development Prerequisites
 
 ### Required Software
 
