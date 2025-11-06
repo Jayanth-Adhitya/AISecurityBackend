@@ -34,6 +34,7 @@ env/
 uploads/
 processed/
 temp/
+data/
 
 # Git
 .git/
@@ -62,9 +63,10 @@ Frontend/
 node_modules/
 
 # Docker
-Dockerfile
-docker-compose.yml
+Dockerfile*
+docker-compose*.yml
 .dockerignore
+*.log
 
 # CI/CD
 .github/
